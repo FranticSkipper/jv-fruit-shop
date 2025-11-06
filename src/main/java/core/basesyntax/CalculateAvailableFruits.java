@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
 
 public class CalculateAvailableFruits extends ReportGenerator {
     private static final String DESCRIPTION_ROW = "fruit,quantity";
-    private final StrategyProvider strategyProvider = new StrategyProvider();
+    private final StrategyProvider strategyProvider;
+
+    public CalculateAvailableFruits(StrategyProvider strategyProvider) {
+        this.strategyProvider = strategyProvider;
+    }
 
     @Override
     public String generate(List<FruitTransaction> transactions) {

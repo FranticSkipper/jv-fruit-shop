@@ -1,13 +1,22 @@
 package core.basesyntax;
 
 import core.basesyntax.model.FruitTransaction;
+import core.basesyntax.model.Operation;
+import core.basesyntax.provider.StrategyProvider;
 import core.basesyntax.service.DataParserService;
 import core.basesyntax.service.FileService;
 import core.basesyntax.service.ReportService;
 import core.basesyntax.service.impl.DataParserServiceImpl;
 import core.basesyntax.service.impl.FileServiceImpl;
 import core.basesyntax.service.impl.ReportServiceImpl;
+import core.basesyntax.strategy.BalanceOperation;
+import core.basesyntax.strategy.OperationStrategy;
+import core.basesyntax.strategy.PurchaseStrategy;
+import core.basesyntax.strategy.ReturnOperation;
+import core.basesyntax.strategy.SupplyStrategy;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     private static final String FILE_PATH = "src/main/resources/";
@@ -22,8 +31,14 @@ public class Main {
         DataParserService dataParser = new DataParserServiceImpl(
                 new CsvDataParser()
         );
+        Map<Operation, OperationStrategy> strategyMap = new HashMap<>();
+        strategyMap.put(Operation.RETURN, new ReturnOperation());
+        strategyMap.put(Operation.PURCHASE, new PurchaseStrategy());
+        strategyMap.put(Operation.BALANCE, new BalanceOperation());
+        strategyMap.put(Operation.SUPPLY, new SupplyStrategy());
+        StrategyProvider strategyProvider = new StrategyProvider(strategyMap);
         ReportService reportService = new ReportServiceImpl(
-                new CalculateAvailableFruits()
+                new CalculateAvailableFruits(strategyProvider)
         );
 
         List<String> fileData = fileService.read(
