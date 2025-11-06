@@ -73,12 +73,21 @@ public class CsvDataParser extends DataParser {
                     + quantity);
         }
 
+        int quantityNumber;
+
         try {
-            return Integer.parseInt(quantity);
+            quantityNumber = Integer.parseInt(quantity);
         } catch (NumberFormatException e) {
-            throw new RuntimeException("Wrong input number "
-                    + data);
+            throw new RuntimeException("Failed to parse a string into number "
+                    + data, e);
         }
 
+        if (quantityNumber < 0) {
+            throw new RuntimeException("Invalid input quantity."
+                    + " The number cannot have a negative value "
+                    + quantityNumber);
+        }
+
+        return quantityNumber;
     }
 }

@@ -20,14 +20,14 @@ public class CsvFileWriter extends FileDataWriter {
             try {
                 Files.createDirectories(parentDir);
             } catch (IOException e) {
-                throw new RuntimeException("Failed to create directory " + parentDir);
+                throw new RuntimeException("Failed to create directory " + parentDir, e);
             }
         }
 
         try {
             Files.writeString(path, data, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to write the file " + path);
+            throw new RuntimeException("Failed to write the file " + path, e);
         }
     }
 }

@@ -11,7 +11,8 @@ public class CsvFileReader extends FileDataReader {
     @Override
     public List<String> read(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
-            throw new RuntimeException("Failed to read data from a file. Path is empty");
+            throw new RuntimeException("Failed to read data from a file."
+                    + " Path is empty");
         }
 
         Path path = Paths.get(filePath);
@@ -19,7 +20,8 @@ public class CsvFileReader extends FileDataReader {
         try {
             return Files.readAllLines(path, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read the file " + filePath);
+            throw new RuntimeException("Failed to read the file "
+                    + filePath + ". File is not found.", e);
         }
     }
 }
